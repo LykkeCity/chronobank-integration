@@ -12,6 +12,7 @@
 
   "frameworks": {
     "netcoreapp1.1": {
+      "imports": "portable-net45"
     }
   }
 }
