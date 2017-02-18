@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using AzureRepositories.ApiRequests;
 using AzureRepositories.Notifiers;
 using AzureStorage.Blob;
 using AzureStorage.Queue;
@@ -10,6 +11,7 @@ using AzureStorage.Tables;
 using Common.Log;
 using Core;
 using Core.Notifiers;
+using Core.Repositories.ApiRequests;
 using Core.Settings;
 
 namespace AzureRepositories
@@ -27,7 +29,8 @@ namespace AzureRepositories
 
         private static void BindRepo(this ContainerBuilder ioc, BaseSettings settings, ILog log)
         {
-
+            ioc.RegisterInstance(new ApiRequestBlobRepository(new AzureBlobStorage(settings.Db.LogsConnString)))
+                .As<IApiRequestBlobRepository>();
         }
 
         private static void BindQueue(this ContainerBuilder ioc, BaseSettings settings)
