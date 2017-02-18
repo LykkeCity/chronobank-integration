@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Features.ResolveAnything;
+using AzureRepositories;
+using AzureRepositories.Log;
 using AzureRepositories.QueueReader;
 using AzureStorage.Tables;
+using Common;
 using Common.Log;
 using Core.QueueReader;
 using Core.Settings;
-using AzureRepositories;
-using AzureRepositories.Log;
-using Common;
 
-namespace ChronobankJob
+namespace ChronobankApi
 {
     public class AzureBinder
     {
@@ -21,9 +17,9 @@ namespace ChronobankJob
 
         public ContainerBuilder Bind(BaseSettings settings)
         {
-            var logToTable = new LogToTable(new AzureTableStorage<LogEntity>(settings.Db.LogsConnString, "LogChronobankJobError", null),
-                                            new AzureTableStorage<LogEntity>(settings.Db.LogsConnString, "LogChronobankJobWarning", null),
-                                            new AzureTableStorage<LogEntity>(settings.Db.LogsConnString, "LogChronobankJobInfo", null));
+            var logToTable = new LogToTable(new AzureTableStorage<LogEntity>(settings.Db.LogsConnString, "LogChronobankApiError", null),
+                                            new AzureTableStorage<LogEntity>(settings.Db.LogsConnString, "LogChronobankApiWarning", null),
+                                            new AzureTableStorage<LogEntity>(settings.Db.LogsConnString, "LogChronobankApiInfo", null));
             var log = new LogToTableAndConsole(logToTable, new LogToConsole());
             var ioc = new ContainerBuilder();
             InitContainer(ioc, settings, log);
@@ -33,9 +29,9 @@ namespace ChronobankJob
         private void InitContainer(ContainerBuilder ioc, BaseSettings settings, ILog log)
         {
 #if DEBUG
-            log.WriteInfoAsync("Chronobank Job", "App start", null, $"BaseSettings : {settings.ToJson()}").Wait();
+            log.WriteInfoAsync("Chronobank Api", "App start", null, $"BaseSettings : {settings.ToJson()}").Wait();
 #else
-            log.WriteInfoAsync("Chronobank Job", "App start", null, $"BaseSettings : private").Wait();
+            log.WriteInfoAsync("Chronobank Api", "App start", null, $"BaseSettings : private").Wait();
 #endif
 
             ioc.RegisterInstance(log);
