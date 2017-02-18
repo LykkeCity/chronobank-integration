@@ -8,6 +8,9 @@ namespace Core.Settings
     public class BaseSettings
     {
         public Db Db { get; set; }
+
+        public string EthereumUrl { get; set; }
+        public string SignatureProviderUrl { get; set; }
     }
 
     public class Db
