@@ -9,5 +9,7 @@ namespace Core
     {
         public const string EmailNotifierQueue = "emailsqueue";
         public const string SlackNotifierQueue = "slack-notifications";
+
+        public const string UserContractQueue = "user-contracts";
     }
 }

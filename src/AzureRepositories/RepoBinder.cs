@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using AzureRepositories.ApiRequests;
+using AzureRepositories.Monitoring;
 using AzureRepositories.Notifiers;
 using AzureStorage.Blob;
 using AzureStorage.Queue;
@@ -12,6 +13,7 @@ using Common.Log;
 using Core;
 using Core.Notifiers;
 using Core.Repositories.ApiRequests;
+using Core.Repositories.Monitoring;
 using Core.Settings;
 
 namespace AzureRepositories
@@ -31,6 +33,9 @@ namespace AzureRepositories
         {
             ioc.RegisterInstance(new ApiRequestBlobRepository(new AzureBlobStorage(settings.Db.LogsConnString)))
                 .As<IApiRequestBlobRepository>();
+
+            ioc.RegisterInstance(new MonitoringRepository(new AzureTableStorage<MonitoringEntity>(settings.Db.SharedConnString, "Monitoring", log)))
+               .As<IMonitoringRepository>();
         }
 
         private static void BindQueue(this ContainerBuilder ioc, BaseSettings settings)

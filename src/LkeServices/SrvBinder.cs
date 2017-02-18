@@ -4,9 +4,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Autofac;
+using Core.Contracts;
 using Core.Providers;
 using Core.Settings;
+using LkeServices.Contracts;
 using LkeServices.Rest;
+using LkeServices.Signature;
 using Nethereum.Web3;
 using RestEase;
 
@@ -16,7 +19,16 @@ namespace LkeServices
     {
         public static void BindCommonServices(this ContainerBuilder ioc)
         {
-            ioc.Register(x => new Web3(x.Resolve<BaseSettings>().EthereumUrl));
+            ioc.Register(x =>
+            {
+                var resolver = x.Resolve<IComponentContext>();
+                var web3 = new Web3(resolver.Resolve<BaseSettings>().EthereumUrl);
+                web3.Client.OverridingRequestInterceptor = new SignatureInterceptor(resolver.Resolve<ISignatureApi>(), web3);
+
+                return web3;
+            });
+
+            ioc.RegisterType<UserContractQueueService>().As<IUserContractQueueService>().SingleInstance();
         }
 
 

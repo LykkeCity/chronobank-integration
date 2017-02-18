@@ -20,6 +20,8 @@ namespace Core.Exceptions
 
     public enum ErrorCode
     {
-        Exception
+        Exception,
+        ContractPoolEmpty,
+        MissingRequiredParams
     }
 }

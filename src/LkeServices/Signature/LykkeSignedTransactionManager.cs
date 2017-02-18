@@ -11,6 +11,7 @@ using Nethereum.RPC.Eth.TransactionManagers;
 using Nethereum.RPC.Eth.Transactions;
 using Nethereum.Web3;
 using Nethereum.Hex.HexConvertors.Extensions;
+using Nethereum.Signer;
 
 namespace LkeServices.Signature
 {
@@ -31,7 +32,7 @@ namespace LkeServices.Signature
             var nonce = transaction.Nonce;
             if (nonce == null)
             {
-                nonce = await ethGetTransactionCount.SendRequestAsync(transaction.From, null).ConfigureAwait(false);                 
+                nonce = await ethGetTransactionCount.SendRequestAsync(transaction.From, null).ConfigureAwait(false);
                 if (nonce.Value <= _nonceCount)
                 {
                     _nonceCount = _nonceCount + 1;
@@ -47,7 +48,9 @@ namespace LkeServices.Signature
         {
             var ethSendTransaction = new EthSendRawTransaction(Client);
             var nonce = await this.GetNonceAsync(transaction);
-            string signedTransaction = await _signatureApi.SignTransaction(new SignRequest(transaction) { NonceHex = nonce.HexValue });
+            var tr = new Nethereum.Signer.Transaction(transaction.To, transaction.Value.Value, nonce, transaction.GasPrice.Value, transaction.Gas.Value, transaction.Data);
+            var hex = tr.GetRLPEncoded().ToHex();
+            var signedTransaction = await _signatureApi.SignTransaction(new SignRequest { From = transaction.From, Transaction = hex });
             return await ethSendTransaction.SendRequestAsync(signedTransaction.EnsureHexPrefix()).ConfigureAwait(false);
         }
 

@@ -7,7 +7,8 @@
       "version": "1.1.0"
     },
     "Core": "1.0.0-*",
-    "Lykke.Common": "1.1.15"
+    "Lykke.Common": "1.1.15",
+    "AzureRepositories": "1.0.0-*"
   },
 
   "frameworks": {

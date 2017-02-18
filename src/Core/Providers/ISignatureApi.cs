@@ -17,27 +17,6 @@ namespace Core.Providers
     {
         public string From { get; set; }
 
-        public string To { get; set; }
-
-        public string Data { get; set; }
-
-        public string GasHex { get; set; }
-
-        public string GasPriceHex { get; set; }
-
-        public string ValueHex { get; set; }
-
-        public string NonceHex { get; set; }
-
-        public SignRequest(TransactionInput transaction)
-        {
-            From = transaction.From;
-            To = transaction.To;
-            Data = transaction.Data;
-            GasHex = transaction.Gas.HexValue;
-            GasPriceHex = transaction.GasPrice.HexValue;
-            ValueHex = transaction.Value.HexValue;
-            NonceHex = transaction.Nonce.HexValue;
-        }
+        public string Transaction { get; set; }
     }
 }
