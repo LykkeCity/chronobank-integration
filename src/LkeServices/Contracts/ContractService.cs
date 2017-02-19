@@ -24,7 +24,7 @@ namespace LkeServices.Contracts
         public async Task<string> CreateContract(string from, string abi, string bytecode, params object[] constructorParams)
         {
             // deploy contract
-            var transactionHash = await _web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, from, new HexBigInteger(1000000), constructorParams);
+            var transactionHash = await _web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, from, new HexBigInteger(3000000), constructorParams);
             TransactionReceipt receipt;
             while ((receipt = await _web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transactionHash)) == null)
             {
@@ -50,10 +50,9 @@ namespace LkeServices.Contracts
             for (var i = 0; i < count; i++)
             {
                 // deploy contract
-                var transactionHash =
-                    await
+                var transactionHash = await
                         _web3.Eth.DeployContract.SendRequestAsync(_settings.UserContract.Abi, _settings.UserContract.ByteCode,
-                            _settings.EthereumMainAccount, new HexBigInteger(500000));
+                            _settings.EthereumMainAccount, new HexBigInteger(500000), _settings.ChronobankAssetProxy.Address);
 
                 transactionHashList.Add(transactionHash);
             }

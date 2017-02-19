@@ -11,5 +11,6 @@ namespace Core
         public const string SlackNotifierQueue = "slack-notifications";
 
         public const string UserContractQueue = "user-contracts";
+        public const string TransactionMonitoringQueue = "transaction-monitoring";
     }
 }

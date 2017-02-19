@@ -6,6 +6,8 @@ using Autofac;
 using AzureRepositories.ApiRequests;
 using AzureRepositories.Monitoring;
 using AzureRepositories.Notifiers;
+using AzureRepositories.TransactionMonitoring;
+using AzureRepositories.UserContracts;
 using AzureStorage.Blob;
 using AzureStorage.Queue;
 using AzureStorage.Tables;
@@ -14,7 +16,9 @@ using Core;
 using Core.Notifiers;
 using Core.Repositories.ApiRequests;
 using Core.Repositories.Monitoring;
+using Core.Repositories.UserContracts;
 using Core.Settings;
+using Core.TransactionMonitoring;
 
 namespace AzureRepositories
 {
@@ -36,10 +40,14 @@ namespace AzureRepositories
 
             ioc.RegisterInstance(new MonitoringRepository(new AzureTableStorage<MonitoringEntity>(settings.Db.SharedConnString, "Monitoring", log)))
                .As<IMonitoringRepository>();
+
+            ioc.RegisterInstance(new UserContractRepository(new AzureTableStorage<UserContractEntity>(settings.Db.DataConnString, "UserContracts", log)))
+               .As<IUserContractRepository>();
         }
 
         private static void BindQueue(this ContainerBuilder ioc, BaseSettings settings)
         {
+            ioc.RegisterType<TransactionMonitoringQueueWriter>().As<ITransactionMonitoringQueueWriter>().SingleInstance();
 
             ioc.RegisterInstance<Func<string, IQueueExt>>(queueName =>
             {

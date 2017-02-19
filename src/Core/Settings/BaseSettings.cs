@@ -21,6 +21,8 @@ namespace Core.Settings
         public int ContractsPerRequest { get; set; } = 50;
 
         public decimal MainAccountMinBalance { get; set; } = 1;
+
+        public Contract ChronobankAssetProxy { get; set; }
     }
 
     public class Db
@@ -32,6 +34,7 @@ namespace Core.Settings
 
     public class Contract
     {
+        public string Address { get; set; }
         public string Abi { get; set; }
         public string ByteCode { get; set; }
     }

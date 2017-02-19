@@ -8,6 +8,7 @@ using Common;
 using Common.Log;
 using Core.QueueReader;
 using Core.Settings;
+using LkeServices;
 
 namespace ChronobankApi
 {
@@ -38,6 +39,7 @@ namespace ChronobankApi
             ioc.RegisterInstance(settings);
             
             ioc.BindAzure(settings, log);
+            ioc.BindCommonServices();
 
             ioc.RegisterInstance(new AzureQueueReaderFactory(settings.Db.DataConnString)).As<IQueueReaderFactory>();
 

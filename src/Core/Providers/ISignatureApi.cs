@@ -10,7 +10,7 @@ namespace Core.Providers
     public interface ISignatureApi
     {
         [Post("api/ethereum/sign")]
-        Task<string> SignTransaction([Body] SignRequest request);
+        Task<TransactionResponse> SignTransaction([Body] SignRequest request);
     }
 
     public class SignRequest
@@ -19,4 +19,10 @@ namespace Core.Providers
 
         public string Transaction { get; set; }
     }
+
+    public class TransactionResponse
+    {
+        public string SignedTransaction { get; set; }
+    }
+
 }

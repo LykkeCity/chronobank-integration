@@ -7,6 +7,7 @@ using Core;
 using Core.Contracts;
 using Core.Exceptions;
 using Core.Notifiers;
+using Core.Repositories.UserContracts;
 
 namespace LkeServices.Contracts
 {
@@ -14,10 +15,12 @@ namespace LkeServices.Contracts
     {
         private readonly ISlackNotifier _slackNotifier;
         private readonly IQueueExt _queue;
+        private readonly IUserContractRepository _userContractRepository;
 
-        public UserContractQueueService(ISlackNotifier slackNotifier, Func<string, IQueueExt> queueFactory)
+        public UserContractQueueService(ISlackNotifier slackNotifier, Func<string, IQueueExt> queueFactory, IUserContractRepository userContractRepository)
         {
             _slackNotifier = slackNotifier;
+            _userContractRepository = userContractRepository;
             _queue = queueFactory(Constants.UserContractQueue);
         }
 
@@ -38,6 +41,8 @@ namespace LkeServices.Contracts
 
             if (string.IsNullOrWhiteSpace(contract))
                 throwAction();
+
+            await _userContractRepository.SaveContract(contract);
 
             return contract;
         }

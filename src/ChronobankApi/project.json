@@ -12,7 +12,8 @@
     "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "AzureRepositories": "1.0.0-*",
-    "Microsoft.AspNetCore.Mvc": "1.1.0"
+    "Microsoft.AspNetCore.Mvc": "1.1.0",
+    "LkeServices": "1.0.0-*"
   },
 
   "tools": {
@@ -28,7 +29,8 @@
   },
 
   "buildOptions": {
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "xmlDoc": true
   },
 
   "runtimeOptions": {

@@ -12,6 +12,7 @@ using Core.Settings;
 using AzureRepositories;
 using AzureRepositories.Log;
 using Common;
+using LkeServices;
 
 namespace ChronobankJob
 {
@@ -40,7 +41,8 @@ namespace ChronobankJob
 
             ioc.RegisterInstance(log);
             ioc.RegisterInstance(settings);
-            
+
+            ioc.BindCommonServices();
             ioc.BindAzure(settings, log);
 
             ioc.RegisterInstance(new AzureQueueReaderFactory(settings.Db.DataConnString)).As<IQueueReaderFactory>();
