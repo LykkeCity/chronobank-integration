@@ -20,14 +20,12 @@ namespace LkeServices.Signature
     {
         private static BigInteger DefaultGasPrice = BigInteger.Parse("20000000000");
 
-        private BigInteger _nonceCount = -1;
-        private readonly Web3 _web3;
+        private BigInteger _nonceCount = -1;        
         private readonly ISignatureApi _signatureApi;
 
         public LykkeSignedTransactionManager(Web3 web3, ISignatureApi signatureApi)
         {
-            _signatureApi = signatureApi;
-            _web3 = web3;
+            _signatureApi = signatureApi;            
             Client = web3.Client;
         }
 

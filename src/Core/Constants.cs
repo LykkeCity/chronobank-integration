@@ -12,5 +12,8 @@ namespace Core
 
         public const string UserContractQueue = "user-contracts";
         public const string TransactionMonitoringQueue = "transaction-monitoring";
+
+        public const int GasForTransfer = 200000;
+        public const string IssueNotifyQueue = "issue-notifications";
     }
 }

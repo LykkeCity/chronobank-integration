@@ -46,6 +46,12 @@ namespace LkeServices.Ethereum
             return await _web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transaction);
         }
 
+        public async Task<bool> WaitForExecution(string hash, int gasSended)
+        {
+            while (await GetTransactionReceipt(hash) == null)
+                await Task.Delay(100);
+            return await IsTransactionExecuted(hash, gasSended);
+        }
     }
 
     public class TansactionTrace

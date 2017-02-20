@@ -11,5 +11,6 @@ namespace Core.Ethereum
     {
         Task<bool> IsTransactionExecuted(string hash, int gasSended);
         Task<TransactionReceipt> GetTransactionReceipt(string transaction);
+        Task<bool> WaitForExecution(string hash, int gasSended);
     }
 }

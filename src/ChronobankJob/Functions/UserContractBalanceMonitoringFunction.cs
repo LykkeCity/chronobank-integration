@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Common.Log;
+using Core;
 using Core.Repositories.UserContracts;
 using Core.Settings;
 using Core.TransactionMonitoring;
@@ -15,6 +17,8 @@ namespace ChronobankJob.Functions
 {
     public class UserContractBalanceMonitoringFunction
     {
+        private static readonly TimeSpan Timeout = TimeSpan.FromMinutes(5);
+
         private readonly IUserContractRepository _userContractRepository;
         private readonly ILog _logger;
         private readonly Web3 _web3;
@@ -43,13 +47,15 @@ namespace ChronobankJob.Functions
 
                     var balance = await contract.GetFunction("balanceOf").CallAsync<BigInteger>(userContract.Address);
 
-                    if (balance > 0)
+                    if (balance > userContract.Balance || (DateTime.UtcNow - userContract.LastCheck) > Timeout)
                     {
                         var currentUserContract = _web3.Eth.GetContract(_settings.UserContract.Abi, userContract.Address);
-                        var tx = await currentUserContract.GetFunction("transferMoney").SendTransactionAsync(_settings.EthereumMainAccount, new HexBigInteger(200000),
-                                        new HexBigInteger(0), _settings.EthereumMainAccount, balance);
+                        var tx = await currentUserContract.GetFunction("transferMoney").SendTransactionAsync(_settings.EthereumMainAccount, new HexBigInteger(Constants.GasForTransfer),
+                                        new HexBigInteger(0), _settings.EthereumMainAccount, balance - userContract.Balance);
 
-                        await _transactionMonitoringQueueWriter.AddToMonitoring(tx, userContract.Address, balance);
+                        await _userContractRepository.SetBalance(userContract.Address, balance);
+
+                        await _transactionMonitoringQueueWriter.AddToMonitoring(tx, userContract.Address, balance - userContract.Balance);
                     }
                 }
                 catch (Exception e)

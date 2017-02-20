@@ -13,6 +13,7 @@ using AzureStorage.Queue;
 using AzureStorage.Tables;
 using Common.Log;
 using Core;
+using Core.IssueNotifier;
 using Core.Notifiers;
 using Core.Repositories.ApiRequests;
 using Core.Repositories.Monitoring;
@@ -48,6 +49,7 @@ namespace AzureRepositories
         private static void BindQueue(this ContainerBuilder ioc, BaseSettings settings)
         {
             ioc.RegisterType<TransactionMonitoringQueueWriter>().As<ITransactionMonitoringQueueWriter>().SingleInstance();
+            ioc.RegisterType<IssueNotifier.IssueNotifier>().As<IIssueNotifier>().SingleInstance();
 
             ioc.RegisterInstance<Func<string, IQueueExt>>(queueName =>
             {
@@ -55,6 +57,7 @@ namespace AzureRepositories
                 {
                     case Constants.SlackNotifierQueue:
                     case Constants.EmailNotifierQueue:
+                    case Constants.IssueNotifyQueue:
                         return new AzureQueueExt(settings.Db.SharedConnString, queueName);
                     default:
                         return new AzureQueueExt(settings.Db.DataConnString, queueName);
