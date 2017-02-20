@@ -37,6 +37,7 @@ namespace ChronobankJob.Functions
         {
             if (await _transactionService.WaitForExecution(message.TxHash, Constants.GasForTransfer))
             {
+                await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", message.ToJson(), "Transaction mined. Firing event.");
                 await _userContractRepository.DecreaseBalance(message.UserContract, BigInteger.Parse(message.Amount));
                 await _issueNotifier.AddNotify(message.TxHash, message.UserContract, message.Amount);             
             }
