@@ -57,8 +57,9 @@ namespace AzureRepositories
                 {
                     case Constants.SlackNotifierQueue:
                     case Constants.EmailNotifierQueue:
-                    case Constants.IssueNotifyQueue:
                         return new AzureQueueExt(settings.Db.SharedConnString, queueName);
+                    case Constants.IssueNotifyQueue:
+                        return new AzureQueueExt(settings.Db.ChronoNotificationConnString, queueName);
                     default:
                         return new AzureQueueExt(settings.Db.DataConnString, queueName);
                 }

@@ -30,6 +30,7 @@ namespace Core.Settings
         public string DataConnString { get; set; }
         public string LogsConnString { get; set; }
         public string SharedConnString { get; set; }
+        public string ChronoNotificationConnString { get; set; }
     }
 
     public class Contract
