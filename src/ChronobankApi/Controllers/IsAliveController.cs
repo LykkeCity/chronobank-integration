@@ -18,7 +18,12 @@ namespace ChronobankApi.Controllers
             _web3 = web3;
         }
 
+        /// <summary>
+        /// Check API is alive
+        /// </summary>
+        /// <returns>Current API version</returns>
         [HttpGet]
+        [ProducesResponseType(200)]
         public IActionResult Get()
         {
             var response = new IsAliveResponse()
@@ -29,6 +34,9 @@ namespace ChronobankApi.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Check Ethereum RPC is alive
+        /// </summary>
         [HttpGet("rpc")]
         public async Task RpcAlive()
         {

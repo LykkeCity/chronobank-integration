@@ -30,6 +30,7 @@
 
   "buildOptions": {
     "preserveCompilationContext": true,
+    "nowarn": [ "1591" ],
     "xmlDoc": true
   },
 

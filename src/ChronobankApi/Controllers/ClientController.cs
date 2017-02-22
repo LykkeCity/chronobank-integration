@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChronobankApi.Filters;
 using ChronobankApi.Models;
 using Core.Contracts;
 using Core.Exceptions;
@@ -19,8 +20,14 @@ namespace ChronobankApi.Controllers
             _userContractQueueService = userContractQueueService;
         }
 
+
+        /// <summary>
+        /// Gets new ehtereum user contract and saves it for monitoring
+        /// </summary>
+        /// <returns>Ethereum contract address</returns>
         [HttpGet("register")]
-        [Produces(typeof(RegisterResponse))]
+        [ProducesResponseType(typeof(RegisterResponse), 200)]
+        [ProducesResponseType(typeof(ApiException), 400)]
         public async Task<IActionResult> Register()
         {
             var contract = await _userContractQueueService.GetContract();
