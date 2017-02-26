@@ -38,8 +38,21 @@ namespace ChronobankJob.Functions
             if (await _transactionService.WaitForExecution(message.TxHash, Constants.GasForTransfer))
             {
                 await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", message.ToJson(), "Transaction mined. Firing event.");
-                await _userContractRepository.DecreaseBalance(message.UserContract, BigInteger.Parse(message.Amount));
-                await _issueNotifier.AddNotify(message.TxHash, message.UserContract, message.Amount);             
+
+                if (message.Type == TransactionType.Cashin)
+                {
+                    var amount = BigInteger.Parse(message.Amount);
+
+                    await _userContractRepository.DecreaseBalance(message.UserContract, amount);
+                    await _issueNotifier.AddNotify(message.TxHash, message.UserContract, amount.FromBlockchainAmount(Constants.TimeCoinDecimals));
+
+                    await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", "Cashin success", message.ToJson());
+                }
+
+                if (message.Type == TransactionType.Cashout)
+                {
+                    await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", "Cashout success", message.ToJson());
+                }
             }
             else
             {

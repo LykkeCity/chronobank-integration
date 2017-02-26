@@ -8,6 +8,7 @@ namespace Core.TransactionMonitoring
 {
     public interface ITransactionMonitoringQueueWriter
     {
-        Task AddToMonitoring(string txHash, string userContract, BigInteger amount);
+        Task AddCashinToMonitoring(string txHash, string userContract, BigInteger amount);
+        Task AddCashoutToMonitoring(string txHash, string address);
     }
 }

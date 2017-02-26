@@ -15,5 +15,7 @@ namespace Core
 
         public const int GasForTransfer = 200000;
         public const string IssueNotifyQueue = "issue-notifications";
+
+        public const int TimeCoinDecimals = 2;
     }
 }

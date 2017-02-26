@@ -9,7 +9,7 @@ namespace Core.IssueNotifier
     {
         public string Contract { get; set; }
 
-        public string Amount { get; set; }
+        public decimal Amount { get; set; }
 
         public string TransactionHash { get; set; }
     }

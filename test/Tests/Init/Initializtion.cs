@@ -46,7 +46,7 @@ namespace Tests
         public void Initialize()
         {
             var settings = GeneralSettingsReader.ReadGeneralSettings<BaseSettings>("UseDevelopmentStorage=true", "chronobanksettings.json");
-
+            
             var log = new LogToConsole();
 
             ContainerBuilder builder = new ContainerBuilder();

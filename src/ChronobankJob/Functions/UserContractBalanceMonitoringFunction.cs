@@ -57,7 +57,7 @@ namespace ChronobankJob.Functions
 
                         await _userContractRepository.SetBalance(userContract.Address, balance);
 
-                        await _transactionMonitoringQueueWriter.AddToMonitoring(tx, userContract.Address, balance - userContract.Balance);
+                        await _transactionMonitoringQueueWriter.AddCashinToMonitoring(tx, userContract.Address, balance - userContract.Balance);
 
                         await _logger.WriteInfoAsync("UserContractBalanceMonitoringFunction", "Process", $"Contract: {userContract.Address}, balance: {balance}, userBalace: {userContract.Balance}", "End transfer");
                     }

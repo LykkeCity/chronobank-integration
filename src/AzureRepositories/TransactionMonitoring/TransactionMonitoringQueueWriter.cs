@@ -19,13 +19,24 @@ namespace AzureRepositories.TransactionMonitoring
             _queue = queueFactory(Constants.TransactionMonitoringQueue);
         }
 
-        public Task AddToMonitoring(string txHash, string userContract, BigInteger amount)
+        public Task AddCashinToMonitoring(string txHash, string userContract, BigInteger amount)
         {
             return _queue.PutRawMessageAsync(new TransactionMonitoringMessage
             {
                 UserContract = userContract,
                 Amount = amount.ToString(),
-                TxHash = txHash
+                TxHash = txHash,
+                Type = TransactionType.Cashin
+            }.ToJson());
+        }
+
+        public Task AddCashoutToMonitoring(string txHash, string address)
+        {
+            return _queue.PutRawMessageAsync(new TransactionMonitoringMessage
+            {
+                Address = address,
+                TxHash = txHash,
+                Type = TransactionType.Cashout
             }.ToJson());
         }
     }

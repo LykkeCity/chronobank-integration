@@ -7,6 +7,6 @@ namespace Core.IssueNotifier
 {
     public interface IIssueNotifier
     {
-        Task AddNotify( string txHash, string contract, string amount);
+        Task AddNotify(string txHash, string contract, decimal amount);
     }
 }

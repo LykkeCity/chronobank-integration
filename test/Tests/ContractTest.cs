@@ -24,7 +24,7 @@ namespace Tests
             var settings = Config.Services.GetService<BaseSettings>();
             var web3 = Config.Services.GetService<Web3>();
 
-            const string secondAccount = "0x7dec29940757db61403f2c7d7f59ae4f3fdf3b0f";
+            const string secondAccount = "0x3a50c8b763d1155ead04ddaeee9e59d2896db93a";
             
             var contract = web3.Eth.GetContract(settings.ChronobankAssetProxy.Abi, settings.ChronobankAssetProxy.Address);
 
