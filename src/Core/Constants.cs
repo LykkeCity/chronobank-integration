@@ -15,6 +15,7 @@ namespace Core
 
         public const int GasForTransfer = 200000;
         public const string IssueNotifyQueue = "chronobank-in";
+        public const string CashoutQueue = "chronobank-out";
 
         public const int TimeCoinDecimals = 2;
     }
