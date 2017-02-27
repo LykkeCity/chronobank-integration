@@ -7,6 +7,6 @@ namespace Core.QueueReader
 {
     public interface IQueueReaderFactory
     {
-	    IQueueReader Create(string queueName);
+	    IQueueReader Create(string connection, string queueName);
     }
 }

@@ -39,9 +39,7 @@ namespace ChronobankApi
             ioc.RegisterInstance(settings);
             
             ioc.BindAzure(settings, log);
-            ioc.BindCommonServices();
-
-            ioc.RegisterInstance(new AzureQueueReaderFactory(settings.Db.DataConnString)).As<IQueueReaderFactory>();
+            ioc.BindCommonServices();            
 
             ioc.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
         }

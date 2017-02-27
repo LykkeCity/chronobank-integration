@@ -45,7 +45,11 @@ namespace ChronobankJob
             ioc.BindCommonServices();
             ioc.BindAzure(settings, log);
 
-            ioc.RegisterInstance(new AzureQueueReaderFactory(settings.Db.DataConnString)).As<IQueueReaderFactory>();
+            var connectionPool = new ConnectionPool();
+            connectionPool.AddConnection("default", settings.Db.DataConnString);
+            connectionPool.AddConnection("cashout", settings.Db.ChronoNotificationConnString);
+
+            ioc.RegisterInstance(new AzureQueueReaderFactory(connectionPool)).As<IQueueReaderFactory>();
 
             ioc.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
         }

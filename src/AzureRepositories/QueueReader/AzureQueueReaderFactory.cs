@@ -11,16 +11,16 @@ namespace AzureRepositories.QueueReader
 {
     public class AzureQueueReaderFactory : IQueueReaderFactory
     {
-	    private readonly string _connectionString;
+        private readonly IConnectionPool _connectionPool;        
 
-	    public AzureQueueReaderFactory(string connectionString)
+	    public AzureQueueReaderFactory(IConnectionPool connectionPool)
 	    {
-		    _connectionString = connectionString;
+	        _connectionPool = connectionPool;	        
 	    }
 
-	    public IQueueReader Create(string queueName)
+	    public IQueueReader Create(string connection, string queueName)
 	    {		   
-		    return new AzureQueueReader(new AzureQueueExt(_connectionString, queueName));
-	    }
+		    return new AzureQueueReader(new AzureQueueExt(_connectionPool.GetConnection(connection), queueName));
+	    }        
     }
 }

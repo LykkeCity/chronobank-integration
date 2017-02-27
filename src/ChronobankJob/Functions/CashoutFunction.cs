@@ -31,7 +31,7 @@ namespace ChronobankJob.Functions
             _transactionMonitoringQueueWriter = transactionMonitoringQueueWriter;
         }
 
-        [QueueTrigger("chronobank-out", notify: true)]
+        [QueueTrigger("chronobank-out", notify: true, connection: "cashout")]
         public async Task Process(CashoutModel model)
         {
             if (await _cashoutRepository.GetCashout(model.Id) != null)

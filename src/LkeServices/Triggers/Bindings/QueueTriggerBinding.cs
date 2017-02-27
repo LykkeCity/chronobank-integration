@@ -37,6 +37,7 @@ namespace LkeServices.Triggers.Bindings
         private bool _hasSecondParameter;
         private bool _useTriggeringContext;
         private bool _shouldNotify;
+        private string _connection;
 
 
         public QueueTriggerBinding(ILog log, IQueueReaderFactory queueReaderFactory, ISlackNotifier slackNotifier)
@@ -57,8 +58,9 @@ namespace LkeServices.Triggers.Bindings
 
             var metadata = _method.GetCustomAttribute<QueueTriggerAttribute>();
 
+            _connection = metadata.Connection;
             _queueName = metadata.Queue;
-            _queueReader = _queueReaderFactory.Create(_queueName);
+            _queueReader = _queueReaderFactory.Create(_connection, _queueName);
             _shouldNotify = metadata.Notify;
 
             var parameters = _method.GetParameters();
@@ -173,7 +175,7 @@ namespace LkeServices.Triggers.Bindings
         {
             newMessageVersion = newMessageVersion ?? message.AsString;
             if (_poisonQueueReader == null)
-                _poisonQueueReader = _queueReaderFactory.Create(_queueName + PoisonSuffix);
+                _poisonQueueReader = _queueReaderFactory.Create(_connection, _queueName + PoisonSuffix);
             await _poisonQueueReader.AddMessageAsync(newMessageVersion);
             await _queueReader.FinishMessageAsync(message);
 

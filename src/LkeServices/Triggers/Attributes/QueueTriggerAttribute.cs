@@ -11,11 +11,14 @@ namespace LkeServices.Triggers.Attributes
 	    public int MaxPollingIntervalMs { get; }
 	    public bool Notify { get; }
 
-	    public QueueTriggerAttribute(string queue, int maxPollingIntervalMs = -1, bool notify = false)
+        public string Connection { get; set; }
+
+	    public QueueTriggerAttribute(string queue, int maxPollingIntervalMs = -1, bool notify = false, string connection = "default")
 	    {
 	        Queue = queue;
 	        MaxPollingIntervalMs = maxPollingIntervalMs;
 	        Notify = notify;
+	        Connection = connection;
 	    }
 	}
 }
