@@ -2,11 +2,9 @@
 using Autofac.Features.ResolveAnything;
 using AzureRepositories;
 using AzureRepositories.Log;
-using AzureRepositories.QueueReader;
 using AzureStorage.Tables;
 using Common;
 using Common.Log;
-using Core.QueueReader;
 using Core.Settings;
 using LkeServices;
 

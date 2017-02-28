@@ -4,15 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Features.ResolveAnything;
-using AzureRepositories.QueueReader;
 using AzureStorage.Tables;
 using Common.Log;
-using Core.QueueReader;
 using Core.Settings;
 using AzureRepositories;
 using AzureRepositories.Log;
 using Common;
 using LkeServices;
+using Lykke.JobTriggers.Extenstions;
 
 namespace ChronobankJob
 {
@@ -38,18 +37,17 @@ namespace ChronobankJob
 #else
             log.WriteInfoAsync("Chronobank Job", "App start", null, $"BaseSettings : private").Wait();
 #endif
-
             ioc.RegisterInstance(log);
             ioc.RegisterInstance(settings);
 
             ioc.BindCommonServices();
             ioc.BindAzure(settings, log);
 
-            var connectionPool = new ConnectionPool();
-            connectionPool.AddConnection("default", settings.Db.DataConnString);
-            connectionPool.AddConnection("cashout", settings.Db.ChronoNotificationConnString);
-
-            ioc.RegisterInstance(new AzureQueueReaderFactory(connectionPool)).As<IQueueReaderFactory>();
+            ioc.AddTriggers(pool =>
+            {
+                pool.AddConnection("default", settings.Db.DataConnString);
+                pool.AddConnection("cashout", settings.Db.ChronoNotificationConnString);
+            });
 
             ioc.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
         }

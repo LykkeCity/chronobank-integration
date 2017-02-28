@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using AzureRepositories;
 using Core.Settings;
-using LkeServices.Triggers;
+using Lykke.JobTriggers.Triggers;
 using Microsoft.Extensions.Configuration;
 
 namespace ChronobankJob

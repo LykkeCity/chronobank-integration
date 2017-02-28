@@ -9,7 +9,7 @@ using Core;
 using Core.Repositories.UserContracts;
 using Core.Settings;
 using Core.TransactionMonitoring;
-using LkeServices.Triggers.Attributes;
+using Lykke.JobTriggers.Triggers.Attributes;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Web3;
 

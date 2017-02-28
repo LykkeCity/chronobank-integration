@@ -12,7 +12,7 @@ using Core.Ethereum;
 using Core.IssueNotifier;
 using Core.Repositories.UserContracts;
 using Core.TransactionMonitoring;
-using LkeServices.Triggers.Attributes;
+using Lykke.JobTriggers.Triggers.Attributes;
 
 namespace ChronobankJob.Functions
 {
