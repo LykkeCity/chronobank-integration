@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.ResolveAnything;
 using AzureStorage.Tables;
 using Common.Log;
@@ -12,6 +13,7 @@ using AzureRepositories.Log;
 using Common;
 using LkeServices;
 using Lykke.JobTriggers.Extenstions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ChronobankJob
 {
@@ -43,11 +45,15 @@ namespace ChronobankJob
             ioc.BindCommonServices();
             ioc.BindAzure(settings, log);
 
-            ioc.AddTriggers(pool =>
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddSingleton(log);
+
+            serviceCollection.AddTriggers(pool =>
             {
-                pool.AddConnection("default", settings.Db.DataConnString);
+                pool.AddDefaultConnection(settings.Db.DataConnString);
                 pool.AddConnection("cashout", settings.Db.ChronoNotificationConnString);
             });
+            ioc.Populate(serviceCollection);
 
             ioc.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
         }
