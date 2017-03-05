@@ -10,7 +10,7 @@ namespace AzureRepositories
 {
     public static class GeneralSettingsReader
     {
-        public static T ReadGeneralSettings<T>(string connectionString, string fileName)
+        public static T ReadGeneralSettings<T>(string connectionString, string fileName = "generalsettings.json")
         {
             var settingsStorage = new AzureBlobStorage(connectionString);
             var settingsData = settingsStorage.GetAsync("settings", fileName).Result.ToBytes();

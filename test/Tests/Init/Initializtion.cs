@@ -10,6 +10,7 @@ using Common.Log;
 using Core.Settings;
 using NUnit.Framework;
 using Common;
+using Core;
 using LkeServices;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -45,7 +46,8 @@ namespace Tests
         [OneTimeSetUp]
         public void Initialize()
         {
-            var settings = GeneralSettingsReader.ReadGeneralSettings<BaseSettings>("UseDevelopmentStorage=true", "chronobanksettings.json");
+            var generalSettings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>("UseDevelopmentStorage=true");
+            var settings = SettingsConverter.ConvertFromGeneralSettings(generalSettings);
             
             var log = new LogToConsole();
 

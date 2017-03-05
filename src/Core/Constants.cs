@@ -17,6 +17,6 @@ namespace Core
         public const string IssueNotifyQueue = "chronobank-in";
         public const string CashoutQueue = "chronobank-out";
 
-        public const int TimeCoinDecimals = 2;
+        public const int TimeCoinDecimals = 8;
     }
 }

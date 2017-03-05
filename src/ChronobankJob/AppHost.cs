@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using AzureRepositories;
+using Core;
 using Core.Settings;
 using Lykke.JobTriggers.Triggers;
 using Microsoft.Extensions.Configuration;
@@ -17,12 +18,6 @@ namespace ChronobankJob
     public class AppHost
     {
         public IConfigurationRoot Configuration { get; }
-
-#if DEBUG
-        const string SettingsBlobName = "chronobanksettings.json";
-#else
-        const string SettingsBlobName = "globalsettings.json";
-#endif
 
         public AppHost()
         {
@@ -36,7 +31,8 @@ namespace ChronobankJob
 
         public void Run()
         {
-            var settings = GeneralSettingsReader.ReadGeneralSettings<BaseSettings>(Configuration.GetConnectionString("Azure"), SettingsBlobName);
+            var generalSettings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>(Configuration.GetConnectionString("Azure"));
+            var settings = SettingsConverter.ConvertFromGeneralSettings(generalSettings);
 
             var containerBuilder = new AzureBinder().Bind(settings);
             var ioc = containerBuilder.Build();
