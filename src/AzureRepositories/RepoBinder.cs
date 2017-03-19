@@ -22,6 +22,7 @@ using Core.Repositories.Monitoring;
 using Core.Repositories.UserContracts;
 using Core.Settings;
 using Core.TransactionMonitoring;
+using Lykke.JobTriggers.Abstractions;
 
 namespace AzureRepositories
 {
@@ -33,7 +34,7 @@ namespace AzureRepositories
             ioc.BindQueue(settings);
 
             ioc.RegisterType<EmailNotifier>().As<IEmailNotifier>();
-            ioc.RegisterType<SlackNotifier>().As<ISlackNotifier>();
+            ioc.RegisterType<SlackNotifier>().As<ISlackNotifier>().As<IPoisionQueueNotifier>();
         }
 
         private static void BindRepo(this ContainerBuilder ioc, BaseSettings settings, ILog log)
