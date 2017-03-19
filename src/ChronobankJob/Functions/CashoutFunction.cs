@@ -37,7 +37,7 @@ namespace ChronobankJob.Functions
             if (await _cashoutRepository.GetCashout(model.Id) != null)
             {
                 await _logger.WriteWarningAsync("CashoutFunction", "Process", "Cashout already exists", model.ToJson());
-                return;
+                throw new Exception($"Entity already exists, {model.Id}");
             }
 
             await _cashoutRepository.CreateCashout(model.Id, model.Address, model.Amount);
@@ -49,7 +49,7 @@ namespace ChronobankJob.Functions
             var amount = model.Amount.ToBlockchainAmount(Constants.TimeCoinDecimals);
 
             var tx = await contract.GetFunction("transfer").SendTransactionAsync(_settings.EthereumMainAccount, new HexBigInteger(Constants.GasForTransfer),
-                                        new HexBigInteger(0), _settings.EthereumMainAccount, model.Address, amount);
+                                        new HexBigInteger(0), model.Address, amount);
 
             await _transactionMonitoringQueueWriter.AddCashoutToMonitoring(tx, model.Address);
 
