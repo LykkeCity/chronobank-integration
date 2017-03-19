@@ -39,7 +39,7 @@ namespace AzureRepositories
             ioc.RegisterInstance(new ApiRequestBlobRepository(new AzureBlobStorage(settings.Db.LogsConnString)))
                 .As<IApiRequestBlobRepository>();
 
-            ioc.RegisterInstance(new MonitoringRepository(new AzureTableStorage<MonitoringEntity>(settings.Db.SharedConnString, "Monitoring", log)))
+            ioc.RegisterInstance(new MonitoringRepository(new AzureTableStorage<MonitoringEntity>(settings.Db.SharedStorageConnString, "Monitoring", log)))
                .As<IMonitoringRepository>();
 
             ioc.RegisterInstance(new UserContractRepository(new AzureTableStorage<UserContractEntity>(settings.Db.DataConnString, "UserContracts", log)))
@@ -57,7 +57,7 @@ namespace AzureRepositories
                 {
                     case Constants.SlackNotifierQueue:
                     case Constants.EmailNotifierQueue:
-                        return new AzureQueueExt(settings.Db.SharedConnString, queueName);
+                        return new AzureQueueExt(settings.Db.SharedStorageConnString, queueName);
                     case Constants.IssueNotifyQueue:
                         return new AzureQueueExt(settings.Db.ChronoBankSrvConnString, queueName);
                     default:
