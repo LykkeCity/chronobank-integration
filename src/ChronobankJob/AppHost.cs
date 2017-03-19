@@ -31,7 +31,7 @@ namespace ChronobankJob
 
         public void Run()
         {
-            var settings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>(Configuration.GetConnectionString("ChronobankJobs"));
+            var settings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>(Configuration.GetConnectionString("Settings"));
 
             var containerBuilder = new AzureBinder().Bind(settings.ChronobankJobs);
             var ioc = containerBuilder.Build();
