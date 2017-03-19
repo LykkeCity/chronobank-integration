@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using AzureRepositories.ApiRequests;
+using AzureRepositories.Cashout;
 using AzureRepositories.Monitoring;
 using AzureRepositories.Notifiers;
 using AzureRepositories.TransactionMonitoring;
@@ -16,6 +17,7 @@ using Core;
 using Core.IssueNotifier;
 using Core.Notifiers;
 using Core.Repositories.ApiRequests;
+using Core.Repositories.Cashout;
 using Core.Repositories.Monitoring;
 using Core.Repositories.UserContracts;
 using Core.Settings;
@@ -44,6 +46,9 @@ namespace AzureRepositories
 
             ioc.RegisterInstance(new UserContractRepository(new AzureTableStorage<UserContractEntity>(settings.Db.DataConnString, "UserContracts", log)))
                .As<IUserContractRepository>();
+
+            ioc.RegisterInstance(new CashoutRepository(new AzureTableStorage<CashoutEntity>(settings.Db.DataConnString, "Cashouts", log)))
+              .As<ICashoutRepository>();
         }
 
         private static void BindQueue(this ContainerBuilder ioc, BaseSettings settings)
