@@ -59,7 +59,7 @@ namespace AzureRepositories
                     case Constants.EmailNotifierQueue:
                         return new AzureQueueExt(settings.Db.SharedConnString, queueName);
                     case Constants.IssueNotifyQueue:
-                        return new AzureQueueExt(settings.Db.ChronoNotificationConnString, queueName);
+                        return new AzureQueueExt(settings.Db.ChronoBankSrvConnString, queueName);
                     default:
                         return new AzureQueueExt(settings.Db.DataConnString, queueName);
                 }

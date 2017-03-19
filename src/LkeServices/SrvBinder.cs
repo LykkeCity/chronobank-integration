@@ -12,6 +12,7 @@ using LkeServices.Contracts;
 using LkeServices.Ethereum;
 using LkeServices.Rest;
 using LkeServices.Signature;
+using Microsoft.Extensions.Configuration;
 using Nethereum.Geth;
 using Nethereum.Web3;
 using RestEase;
@@ -50,6 +51,7 @@ namespace LkeServices
         private static void BindApiProviders(this ContainerBuilder ioc)
         {
             ioc.RegisterType<LykkeHttpClientHandler>().SingleInstance();
+
             ioc.Register(x =>
             {
                 var resolver = x.Resolve<IComponentContext>();

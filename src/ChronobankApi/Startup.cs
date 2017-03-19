@@ -38,8 +38,7 @@ namespace ChronobankApi
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var generalSettings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>(Configuration.GetConnectionString("Azure"));
-            var settings = SettingsConverter.ConvertFromGeneralSettings(generalSettings);
+            var settings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>(Configuration.GetConnectionString("ChronobankApi"));
 
             services.AddMvc(o =>
             {
@@ -63,7 +62,7 @@ namespace ChronobankApi
                 options.IncludeXmlComments(xmlPath);
             });
 
-            var builder = new AzureBinder().Bind(settings);
+            var builder = new AzureBinder().Bind(settings.ChronobankApi);
             builder.Populate(services);
 
             return new AutofacServiceProvider(builder.Build());

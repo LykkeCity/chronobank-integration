@@ -51,7 +51,7 @@ namespace ChronobankJob
             serviceCollection.AddTriggers(pool =>
             {
                 pool.AddDefaultConnection(settings.Db.DataConnString);
-                pool.AddConnection("cashout", settings.Db.ChronoNotificationConnString);
+                pool.AddConnection("cashout", settings.Db.ChronoBankSrvConnString);
             });
             ioc.Populate(serviceCollection);
 

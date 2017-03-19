@@ -47,14 +47,13 @@ namespace Tests
         public void Initialize()
         {
             var generalSettings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>("UseDevelopmentStorage=true");
-            var settings = SettingsConverter.ConvertFromGeneralSettings(generalSettings);
             
             var log = new LogToConsole();
 
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterInstance(settings);
+            builder.RegisterInstance(generalSettings.ChronobankJobs);
             builder.RegisterInstance(log).As<ILog>();
-            builder.BindAzure(settings, log);
+            builder.BindAzure(generalSettings.ChronobankJobs, log);
 
             builder.BindCommonServices();
 

@@ -31,10 +31,9 @@ namespace ChronobankJob
 
         public void Run()
         {
-            var generalSettings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>(Configuration.GetConnectionString("Azure"));
-            var settings = SettingsConverter.ConvertFromGeneralSettings(generalSettings);
+            var settings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>(Configuration.GetConnectionString("ChronobankJobs"));
 
-            var containerBuilder = new AzureBinder().Bind(settings);
+            var containerBuilder = new AzureBinder().Bind(settings.ChronobankJobs);
             var ioc = containerBuilder.Build();
 
             var triggerHost = new TriggerHost(new AutofacServiceProvider(ioc));
