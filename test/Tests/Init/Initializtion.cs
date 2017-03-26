@@ -46,14 +46,14 @@ namespace Tests
         [OneTimeSetUp]
         public void Initialize()
         {
-            var generalSettings = GeneralSettingsReader.ReadGeneralSettings<GeneralSettings>("UseDevelopmentStorage=true");
+            var generalSettings = GeneralSettingsReader.ReadGeneralSettingsLocal<BaseSettings>("../../settings/chronobanksettings.json");
             
             var log = new LogToConsole();
 
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterInstance(generalSettings.ChronobankJobs);
+            builder.RegisterInstance(generalSettings);
             builder.RegisterInstance(log).As<ILog>();
-            builder.BindAzure(generalSettings.ChronobankJobs, log);
+            builder.BindAzure(generalSettings, log);
 
             builder.BindCommonServices();
 
