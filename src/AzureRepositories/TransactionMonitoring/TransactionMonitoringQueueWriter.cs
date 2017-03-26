@@ -26,7 +26,8 @@ namespace AzureRepositories.TransactionMonitoring
                 UserContract = userContract,
                 Amount = amount.ToString(),
                 TxHash = txHash,
-                Type = TransactionType.Cashin
+                Type = TransactionType.Cashin,
+                PutDateTime = DateTime.UtcNow
             }.ToJson());
         }
 
@@ -36,7 +37,8 @@ namespace AzureRepositories.TransactionMonitoring
             {
                 Address = address,
                 TxHash = txHash,
-                Type = TransactionType.Cashout
+                Type = TransactionType.Cashout,
+                PutDateTime = DateTime.UtcNow
             }.ToJson());
         }
     }

@@ -42,7 +42,7 @@ namespace ChronobankJob.Functions
 
             await _cashoutRepository.CreateCashout(model.Id, model.Address, model.Amount);
 
-            await _logger.WriteInfoAsync("CashoutFunction", "Process", $"Begin cashout [{model.Id}]", model.ToJson());
+            await _logger.WriteInfoAsync("CashoutFunction", "Process", model.ToJson(), $"Begin cashout [{model.Id}]");
 
             var contract = _web3.Eth.GetContract(_settings.ChronobankAssetProxy.Abi, _settings.ChronobankAssetProxy.Address);
 
@@ -53,7 +53,7 @@ namespace ChronobankJob.Functions
 
             await _transactionMonitoringQueueWriter.AddCashoutToMonitoring(tx, model.Address);
 
-            await _logger.WriteInfoAsync("CashoutFunction", "Process", $"End cashout [{model.Id}]", "");
+            await _logger.WriteInfoAsync("CashoutFunction", "Process", "", $"End cashout [{model.Id}]");
         }
     }
 
