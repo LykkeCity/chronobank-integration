@@ -59,7 +59,7 @@ namespace ChronobankJob.Functions
 
                         await _transactionMonitoringQueueWriter.AddCashinToMonitoring(tx, userContract.Address, balance - userContract.Balance);
 
-                        await _logger.WriteInfoAsync("UserContractBalanceMonitoringFunction", "Process", $"Contract: {userContract.Address}, balance: {balance}, userBalace: {userContract.Balance}", "End transfer");
+                        await _logger.WriteInfoAsync("UserContractBalanceMonitoringFunction", "Process", $"Contract: {userContract.Address}, balance: {balance}, userBalace: {userContract.Balance}, tx: {tx}", "End transfer");
                     }
                 }
                 catch (Exception e)

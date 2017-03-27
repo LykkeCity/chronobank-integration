@@ -53,7 +53,7 @@ namespace ChronobankJob.Functions
 
             await _transactionMonitoringQueueWriter.AddCashoutToMonitoring(tx, model.Address);
 
-            await _logger.WriteInfoAsync("CashoutFunction", "Process", "", $"End cashout [{model.Id}]");
+            await _logger.WriteInfoAsync("CashoutFunction", "Process", "", $"End cashout [{model.Id}], tx: [{tx}]");
         }
     }
 

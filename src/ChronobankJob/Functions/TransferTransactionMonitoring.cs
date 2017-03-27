@@ -50,12 +50,12 @@ namespace ChronobankJob.Functions
                     await _userContractRepository.DecreaseBalance(message.UserContract, amount);
                     await _issueNotifier.AddNotify(message.TxHash, message.UserContract, amount.FromBlockchainAmount(Constants.TimeCoinDecimals));
 
-                    await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", message.ToJson(), "Cashin success");
+                    await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", $"{message.ToJson()}, tx: [{message.TxHash}]", "Cashin success");
                 }
 
                 if (message.Type == TransactionType.Cashout)
                 {
-                    await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", message.ToJson(), "Cashout success");
+                    await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", $"{message.ToJson()}, tx: [{message.TxHash}]", "Cashout success");
                 }
             }
             else if ((DateTime.UtcNow - message.PutDateTime).TotalMinutes < _settings.TransactionExecutionTimeoutMinutes)
