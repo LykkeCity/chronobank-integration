@@ -8,6 +8,7 @@ namespace Core.Contracts
     public interface IUserContractQueueService
     {
         Task<string> GetContract();
+        Task<string> GetContractRaw();
         Task PushContract(string contract);
         Task<int> Count();
     }

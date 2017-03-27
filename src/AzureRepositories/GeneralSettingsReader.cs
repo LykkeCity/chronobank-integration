@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -18,6 +19,13 @@ namespace AzureRepositories
             var settingsData = httpClient.GetStringAsync("").Result;
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(settingsData);
+        }
+
+        public static T ReadGeneralSettingsLocal<T>(string path)
+        {
+            var content = File.ReadAllText(path);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(content);
         }
     }
 }

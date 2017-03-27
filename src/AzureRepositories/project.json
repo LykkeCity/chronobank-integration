@@ -9,7 +9,7 @@
     "Core": "1.0.0-*",
     "Lykke.AzureStorage": "1.2.5",
     "System.Reflection.TypeExtensions": "4.3.0",
-    "Lykke.JobTriggers": "1.0.5"
+    "Lykke.JobTriggers": "1.0.11"
   },
 
   "frameworks": {

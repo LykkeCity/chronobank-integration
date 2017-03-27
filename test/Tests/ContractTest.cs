@@ -24,14 +24,14 @@ namespace Tests
             var settings = Config.Services.GetService<BaseSettings>();
             var web3 = Config.Services.GetService<Web3>();
 
-            const string secondAccount = "0x3a50c8b763d1155ead04ddaeee9e59d2896db93a";
+            const string secondAccount = "0xd3c2dd7bee6345efd37873b1eb14e6ce6d976653";
             
             var contract = web3.Eth.GetContract(settings.ChronobankAssetProxy.Abi, settings.ChronobankAssetProxy.Address);
 
             var mainBalance = await contract.GetFunction("balanceOf").CallAsync<BigInteger>(settings.EthereumMainAccount);
             var userBalance = await contract.GetFunction("balanceOf").CallAsync<BigInteger>(secondAccount);
 
-            const int amount = 10;
+            const int amount = 4;
             await ExecuteFunction(settings, contract.GetFunction("transfer"), secondAccount, amount);
 
             var mainBalance2 = await contract.GetFunction("balanceOf").CallAsync<BigInteger>(settings.EthereumMainAccount);
