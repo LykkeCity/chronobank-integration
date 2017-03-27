@@ -26,6 +26,15 @@ namespace LkeServices.Contracts
 
         public async Task<string> GetContract()
         {
+            var contract = await GetContractRaw();
+
+            await _userContractRepository.SaveContract(contract);
+
+            return contract;
+        }
+
+        public async Task<string> GetContractRaw()
+        {
             Action throwAction = () =>
             {
                 _slackNotifier.ErrorAsync("Chronobank integration! User contract pool is empty!");
@@ -41,8 +50,6 @@ namespace LkeServices.Contracts
 
             if (string.IsNullOrWhiteSpace(contract))
                 throwAction();
-
-            await _userContractRepository.SaveContract(contract);
 
             return contract;
         }
