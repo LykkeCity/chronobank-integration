@@ -10,6 +10,7 @@
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8</PackageTargetFallback>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
