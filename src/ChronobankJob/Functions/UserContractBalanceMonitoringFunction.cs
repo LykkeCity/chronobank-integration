@@ -47,7 +47,7 @@ namespace ChronobankJob.Functions
 
                     var balance = await contract.GetFunction("balanceOf").CallAsync<BigInteger>(userContract.Address);
 
-                    if (balance > userContract.Balance || (balance > 0 && (DateTime.UtcNow - userContract.LastCheck) > Timeout))
+                    if (balance > 0 && (balance > userContract.Balance || (DateTime.UtcNow - userContract.LastCheck) > Timeout))
                     {
                         await _logger.WriteInfoAsync("UserContractBalanceMonitoringFunction", "Process", $"Contract: {userContract.Address}, balance: {balance}, userBalace: {userContract.Balance}", "Start transfer");
 
