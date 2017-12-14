@@ -29,8 +29,8 @@ namespace LkeServices.Ethereum
             if (receipt == null)
                 return false;
 
-            if (receipt.GasUsed.Value != new Nethereum.Hex.HexTypes.HexBigInteger(gasSended).Value)
-                return true;
+            if (receipt.GasUsed.Value == new Nethereum.Hex.HexTypes.HexBigInteger(gasSended).Value)
+                return false;
             
             var logs = await _web3Geth.Debug.TraceTransaction.SendRequestAsync(hash, new TraceTransactionOptions());
 

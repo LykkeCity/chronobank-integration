@@ -8,7 +8,6 @@ using Autofac.Extensions.DependencyInjection;
 using AzureRepositories;
 using Common.Log;
 using Core.Settings;
-using NUnit.Framework;
 using Common;
 using Core;
 using LkeServices;
@@ -43,7 +42,7 @@ namespace Tests
         }
 
 
-        [OneTimeSetUp]
+        [Fact]
         public void Initialize()
         {
             var generalSettings = GeneralSettingsReader.ReadGeneralSettingsLocal<BaseSettings>("../../settings/chronobanksettings.json");

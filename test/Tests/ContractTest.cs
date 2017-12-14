@@ -3,26 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using AzureRepositories.Cashout;
+using AzureStorage.Tables;
+using Core.Ethereum;
 using Core.Settings;
+using Core.TransactionMonitoring;
 using LkeServices.Ethereum;
-using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Nethereum.Contracts;
 using Nethereum.Geth;
 using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
+using Newtonsoft.Json;
+using Xunit;
 
 namespace Tests
 {
-    [TestFixture]
     public class ContractTest
     {
-        [Test]
+        [Fact]
         public async Task TestTransfer()
         {
             var settings = Config.Services.GetService<BaseSettings>();
             var web3 = Config.Services.GetService<Web3>();
+
+            var transactionService = Config.Services.GetService<ITransactionService>();
+            var receipt =
+                await transactionService.GetTransactionReceipt(
+                    "0xf73c722e5d874389957b1600d2da6887806daf21a2c7c3873dd9cd6359eed4f9");
+
+            var receipt2 =
+                await transactionService.GetTransactionReceipt(
+                    "0x48e2cca5c4ec7f79f9ace5246efe7bc95f5453cde9e841314d66a7eb157bb463");
 
             const string secondAccount = "0xd3c2dd7bee6345efd37873b1eb14e6ce6d976653";
             
@@ -37,11 +51,11 @@ namespace Tests
             var mainBalance2 = await contract.GetFunction("balanceOf").CallAsync<BigInteger>(settings.EthereumMainAccount);
             var userBalance2 = await contract.GetFunction("balanceOf").CallAsync<BigInteger>(secondAccount);
 
-            Assert.AreEqual(mainBalance - amount, mainBalance2);
-            Assert.AreEqual(userBalance + amount, userBalance2);
+            Assert.Equal(mainBalance - amount, mainBalance2);
+            Assert.Equal(userBalance + amount, userBalance2);
         }
 
-        [Test]
+        [Fact]
         public async Task GetVersion()
         {
             var settings = Config.Services.GetService<BaseSettings>();
@@ -53,7 +67,7 @@ namespace Tests
             var versionFor = await contract.GetFunction("getVersionFor").CallAsync<string>(settings.EthereumMainAccount);
             var versionLatest = await contract.GetFunction("getLatestVersion").CallAsync<string>();
 
-            Assert.AreEqual(versionLatest, versionFor);
+            Assert.Equal(versionLatest, versionFor);
         }
 
         private async Task ExecuteFunction(BaseSettings settings, Function function, params object[] inputs)
@@ -73,6 +87,11 @@ namespace Tests
 
             if (!await transactionService.IsTransactionExecuted(tx, gas))
                 throw new Exception("Transaction was not executed");
+        }
+
+        public async Task Do()
+        {
+            var cashoutRepo = new CashoutRepository(new AzureTableStorage<CashoutEntity>("", "Cashouts", null));
         }
     }
 }
