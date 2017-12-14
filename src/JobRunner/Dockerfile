@@ -3,4 +3,3 @@ ENTRYPOINT ["dotnet", "JobRunner.dll"]
 ARG source=.
 WORKDIR /app
 COPY $source .
-COPY /runtimes/linux-x64/native/libuv.so /app
