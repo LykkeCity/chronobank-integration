@@ -22,25 +22,12 @@ namespace LkeServices.Ethereum
             _web3 = web3;
         }
 
-        public async Task<bool> IsTransactionExecuted(string hash, int gasSended)
+        public async Task<bool> IsTransactionExecuted(string hash)
         {
             var receipt = await GetTransactionReceipt(hash);
-
-            if (receipt == null)
-                return false;
-
-            if (receipt.GasUsed.Value == new Nethereum.Hex.HexTypes.HexBigInteger(gasSended).Value)
-                return false;
-            
-            var logs = await _web3Geth.Debug.TraceTransaction.SendRequestAsync(hash, new TraceTransactionOptions());
-
-            var obj = logs.ToObject<TansactionTrace>();
-            if (obj.StructLogs?.Length > 0 && obj.StructLogs[obj.StructLogs.Length - 1].Error != null)
-                return false;
-
-            return true;
+            return receipt != null && receipt.Status.Value.IsOne;
         }
-        
+
         public async Task<TransactionReceipt> GetTransactionReceipt(string transaction)
         {
             return await _web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transaction);
@@ -50,7 +37,7 @@ namespace LkeServices.Ethereum
         {
             while (await GetTransactionReceipt(hash) == null)
                 await Task.Delay(100);
-            return await IsTransactionExecuted(hash, gasSended);
+            return await IsTransactionExecuted(hash);
         }
     }
 

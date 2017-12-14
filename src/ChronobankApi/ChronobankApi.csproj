@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>ChronobankApi</AssemblyName>
     <PackageId>ChronobankApi</PackageId>
-    <ServerGarbageCollection>true</ServerGarbageCollection>
-    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
+    <ServerGarbageCollection>true</ServerGarbageCollection>    
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8</PackageTargetFallback>
     <Version>1.0.1</Version>
   </PropertyGroup>

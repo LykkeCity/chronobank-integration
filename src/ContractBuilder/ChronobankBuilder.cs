@@ -119,7 +119,7 @@ namespace ContractBuilder
 
             var transactionService = new TransactionService(new Web3Geth(Host), _web3);
 
-            if (!await transactionService.IsTransactionExecuted(tx, gas))
+            if (!await transactionService.IsTransactionExecuted(tx))
                 throw new Exception("Transaction was not executed");
         }
 
