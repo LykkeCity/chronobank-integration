@@ -3,8 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>LkeServices</AssemblyName>
-    <PackageId>LkeServices</PackageId>    
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45</PackageTargetFallback>
+    <PackageId>LkeServices</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>

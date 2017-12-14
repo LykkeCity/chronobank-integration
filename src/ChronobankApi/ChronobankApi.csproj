@@ -7,8 +7,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>ChronobankApi</AssemblyName>
     <PackageId>ChronobankApi</PackageId>
-    <ServerGarbageCollection>true</ServerGarbageCollection>    
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8</PackageTargetFallback>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
     <Version>1.0.1</Version>
   </PropertyGroup>
 

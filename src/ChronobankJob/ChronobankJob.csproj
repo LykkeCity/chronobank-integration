@@ -3,8 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>ChronobankJob</AssemblyName>
-    <PackageId>ChronobankJob</PackageId>    
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45</PackageTargetFallback>
+    <PackageId>ChronobankJob</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>

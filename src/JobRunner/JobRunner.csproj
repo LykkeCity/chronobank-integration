@@ -4,8 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>JobRunner</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>JobRunner</PackageId>    
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45</PackageTargetFallback>
+    <PackageId>JobRunner</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
