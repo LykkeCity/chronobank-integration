@@ -39,7 +39,7 @@ namespace ChronobankJob.Functions
         [QueueTrigger(Constants.TransactionMonitoringQueue, notify: true)]
         public async Task Monitoring(TransactionMonitoringMessage message, QueueTriggeringContext context)
         {
-            if (await _transactionService.IsTransactionExecuted(message.TxHash, Constants.GasForTransfer))
+            if (await _transactionService.IsTransactionExecuted(message.TxHash))
             {
                 await _logger.WriteInfoAsync("TransferTransactionMonitoring", "Monitoring", message.ToJson(), "Transaction mined. Firing event.");
 

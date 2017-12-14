@@ -7,10 +7,11 @@ using Core.Providers;
 using Nethereum.Hex.HexTypes;
 using Nethereum.JsonRpc.Client;
 using Nethereum.RPC.Eth.DTOs;
-using Nethereum.RPC.Eth.TransactionManagers;
 using Nethereum.RPC.Eth.Transactions;
 using Nethereum.Web3;
 using Nethereum.Hex.HexConvertors.Extensions;
+using Nethereum.RPC.TransactionManagers;
+using Nethereum.RPC.TransactionReceipts;
 using Nethereum.Signer;
 using Transaction = Nethereum.Signer.Transaction;
 
@@ -18,7 +19,7 @@ namespace LkeServices.Signature
 {
     public class LykkeSignedTransactionManager : ITransactionManager
     {
-        private static BigInteger DefaultGasPrice = BigInteger.Parse("20000000000");
+        private BigInteger DefaultGasPriceConst = BigInteger.Parse("20000000000");
 
         private BigInteger _nonceCount = -1;        
         private readonly ISignatureApi _signatureApi;
@@ -53,7 +54,7 @@ namespace LkeServices.Signature
 
             var nonce = await GetNonceAsync(transaction);
             var value = transaction.Value?.Value ?? 0;
-            var gasPrice = transaction.GasPrice?.Value ?? DefaultGasPrice;
+            var gasPrice = transaction.GasPrice?.Value ?? DefaultGasPriceConst;
             var gasValue = transaction.Gas?.Value ?? Transaction.DEFAULT_GAS_LIMIT;
 
             var tr = new Transaction(transaction.To, value, nonce, gasPrice, gasValue, transaction.Data);
@@ -63,6 +64,21 @@ namespace LkeServices.Signature
             return await ethSendTransaction.SendRequestAsync(response.SignedTransaction.EnsureHexPrefix()).ConfigureAwait(false);
         }
 
+        public Task<HexBigInteger> EstimateGasAsync<T>(T callInput) where T : CallInput
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> SendTransactionAsync(string @from, string to, HexBigInteger amount)
+        {
+            throw new NotImplementedException();
+        }
+
         public IClient Client { get; set; }
+
+        public BigInteger DefaultGasPrice { get; set; }
+        public BigInteger DefaultGas { get; set; }
+
+        public ITransactionReceiptService TransactionReceiptService { get; set; }
     }
 }

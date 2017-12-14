@@ -8,7 +8,6 @@ using Autofac.Extensions.DependencyInjection;
 using AzureRepositories;
 using Common.Log;
 using Core.Settings;
-using NUnit.Framework;
 using Common;
 using Core;
 using LkeServices;
@@ -16,18 +15,23 @@ using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable once CheckNamespace
 namespace Tests
-{
-    [SetUpFixture]
-    public class Config
+{    
+    public class Config  : IDisposable
     {
-        public static IServiceProvider Services { get; set; }
-        public static ILog Logger => Services.GetService<ILog>();
+        public IServiceProvider Services { get; set; }
+        public ILog Logger => Services.GetService<ILog>();
+
+
+        public Config()
+        {
+            Initialize();
+        }
 
         private Settings ReadSettings()
         {
             try
             {
-                var json = File.ReadAllText(@"..\..\settings\buildersettings.json");
+                var json = File.ReadAllText(@"..\..\..\..\..\settings\buildersettings.json");
                 if (string.IsNullOrWhiteSpace(json))
                 {
                     return null;
@@ -42,11 +46,10 @@ namespace Tests
             }
         }
 
-
-        [OneTimeSetUp]
+        
         public void Initialize()
         {
-            var generalSettings = GeneralSettingsReader.ReadGeneralSettingsLocal<BaseSettings>("../../settings/chronobanksettings.json");
+            var generalSettings = GeneralSettingsReader.ReadGeneralSettingsLocal<BaseSettings>("../../../../../settings/chronobanksettings.json");
             
             var log = new LogToConsole();
 
@@ -62,6 +65,10 @@ namespace Tests
                 builder.RegisterInstance(testSettings);
 
             Services = new AutofacServiceProvider(builder.Build());
+        }
+
+        public void Dispose()
+        {            
         }
     }
 
