@@ -51,13 +51,15 @@ namespace ChronobankJob.Functions
                     {
                         await _logger.WriteInfoAsync("UserContractBalanceMonitoringFunction", "Process", $"Contract: {userContract.Address}, balance: {balance}, userBalace: {userContract.Balance}", "Start transfer");
 
+                        var transferBalance = balance > userContract.Balance ? balance - userContract.Balance : balance;
+
                         var currentUserContract = _web3.Eth.GetContract(_settings.UserContract.Abi, userContract.Address);
                         var tx = await currentUserContract.GetFunction("transferMoney").SendTransactionAsync(_settings.EthereumMainAccount, new HexBigInteger(Constants.GasForTransfer),
-                                        new HexBigInteger(0), _settings.EthereumMainAccount, balance);
+                                        new HexBigInteger(0), _settings.EthereumMainAccount, transferBalance);
 
                         await _userContractRepository.SetBalance(userContract.Address, balance);
 
-                        await _transactionMonitoringQueueWriter.AddCashinToMonitoring(tx, userContract.Address, balance);
+                        await _transactionMonitoringQueueWriter.AddCashinToMonitoring(tx, userContract.Address, transferBalance);
 
                         await _logger.WriteInfoAsync("UserContractBalanceMonitoringFunction", "Process", $"Contract: {userContract.Address}, balance: {balance}, userBalace: {userContract.Balance}, tx: {tx}", "End transfer");
                     }

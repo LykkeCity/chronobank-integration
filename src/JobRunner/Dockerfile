@@ -1,5 +1,6 @@
-FROM microsoft/dotnet:1.1-runtime
+FROM microsoft/dotnet:2.0-runtime
 ENTRYPOINT ["dotnet", "JobRunner.dll"]
 ARG source=.
 WORKDIR /app
 COPY $source .
+COPY /runtimes/linux-x64/native/libuv.so /app
