@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Providers;
 using Nethereum.Hex.HexTypes;
@@ -10,6 +12,7 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Eth.Transactions;
 using Nethereum.Web3;
 using Nethereum.Hex.HexConvertors.Extensions;
+using Nethereum.RPC.NonceServices;
 using Nethereum.RPC.TransactionManagers;
 using Nethereum.RPC.TransactionReceipts;
 using Nethereum.Signer;
@@ -21,29 +24,24 @@ namespace LkeServices.Signature
     {
         private BigInteger DefaultGasPriceConst = BigInteger.Parse("20000000000");
 
-        private BigInteger _nonceCount = -1;        
+        private BigInteger _nonceCount = -1;
         private readonly ISignatureApi _signatureApi;
+
+        private readonly ConcurrentDictionary<string, INonceService> _nonceServices = new ConcurrentDictionary<string, INonceService>();
 
         public LykkeSignedTransactionManager(Web3 web3, ISignatureApi signatureApi)
         {
-            _signatureApi = signatureApi;            
+            _signatureApi = signatureApi;
             Client = web3.Client;
         }
 
-        public async Task<HexBigInteger> GetNonceAsync(TransactionInput transaction)
-        {
-            var ethGetTransactionCount = new EthGetTransactionCount(Client);
+        private async Task<HexBigInteger> GetNonceAsync(TransactionInput transaction)
+        {                                  
             var nonce = transaction.Nonce;
             if (nonce == null)
             {
-                nonce = await ethGetTransactionCount.SendRequestAsync(transaction.From).ConfigureAwait(false);
-                if (nonce.Value <= _nonceCount)
-                {
-                    _nonceCount = _nonceCount + 1;
-                    nonce = new HexBigInteger(_nonceCount);
-                }
-                else
-                    _nonceCount = nonce.Value;
+                var nonceService = _nonceServices.GetOrAdd(transaction.From, (key) => new InMemoryNonceService(key, Client));
+                nonce = await nonceService.GetNextNonceAsync();               
             }
             return nonce;
         }
