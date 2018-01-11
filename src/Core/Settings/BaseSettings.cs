@@ -25,6 +25,9 @@ namespace Core.Settings
         public Contract ChronobankAssetProxy { get; set; }
 
         public int TransactionExecutionTimeoutMinutes { get; set; } = 10;
+
+        public int MaxGasPriceGwei { get; set; } = 300;
+        public int MinGasPriceGwei { get; set; } = 20;
     }
 
     public class Db

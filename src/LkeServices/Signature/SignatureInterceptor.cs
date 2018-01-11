@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Providers;
+using Core.Settings;
 using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.JsonRpc.Client;
 using Nethereum.RPC.Eth.DTOs;
@@ -16,9 +17,9 @@ namespace LkeServices.Signature
     {
         private readonly ITransactionManager _transactionManager;
 
-        public SignatureInterceptor(ISignatureApi signatureApi, Web3 web3)
+        public SignatureInterceptor(ISignatureApi signatureApi, Web3 web3, BaseSettings baseSettings)
         {
-            _transactionManager = new LykkeSignedTransactionManager(web3, signatureApi);
+            _transactionManager = new LykkeSignedTransactionManager(web3, signatureApi, baseSettings);
         }
 
         public override async Task<object> InterceptSendRequestAsync<TResponse>(

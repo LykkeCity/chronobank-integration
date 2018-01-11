@@ -26,8 +26,9 @@ namespace LkeServices
             ioc.Register(x =>
             {
                 var resolver = x.Resolve<IComponentContext>();
-                var web3 = new Web3(resolver.Resolve<BaseSettings>().EthereumUrl);
-                web3.Client.OverridingRequestInterceptor = new SignatureInterceptor(resolver.Resolve<ISignatureApi>(), web3);
+                var settings = resolver.Resolve<BaseSettings>();
+                var web3 = new Web3(settings.EthereumUrl);
+                web3.Client.OverridingRequestInterceptor = new SignatureInterceptor(resolver.Resolve<ISignatureApi>(), web3, settings);
 
                 return web3;
             }).SingleInstance();
