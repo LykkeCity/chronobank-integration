@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using AzureRepositories.Cashout;
 using AzureStorage.Tables;
-using Core.Ethereum;
 using Core.Settings;
-using Core.TransactionMonitoring;
 using LkeServices.Ethereum;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.WindowsAzure.Storage.Queue;
 using Nethereum.Contracts;
 using Nethereum.Geth;
 using Nethereum.Hex.HexTypes;
-using Nethereum.Parity;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Tests
