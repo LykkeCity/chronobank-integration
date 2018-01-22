@@ -13,6 +13,7 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Eth.Transactions;
 using Nethereum.Web3;
 using Nethereum.Hex.HexConvertors.Extensions;
+using Nethereum.RPC.Accounts;
 using Nethereum.RPC.NonceServices;
 using Nethereum.RPC.TransactionManagers;
 using Nethereum.RPC.TransactionReceipts;
@@ -89,6 +90,7 @@ namespace LkeServices.Signature
         public BigInteger DefaultGasPrice { get; set; }
         public BigInteger DefaultGas { get; set; }
 
+        public IAccount Account => throw new NotImplementedException();
         public ITransactionReceiptService TransactionReceiptService { get; set; }
     }
 }
